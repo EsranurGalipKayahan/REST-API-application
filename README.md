@@ -24,4 +24,6 @@ users.
    ![operations](https://user-images.githubusercontent.com/61011249/135954301-55c17fb5-88f5-4ef3-97f3-caafced6bffb.png)
    
    As you see from the picture given above, in this example, we have movie REST resourece. On this resource, we are allowed to just Create, Read and Delete operations of CRUD. We are not allowed to update operation.
-   
+  
+  <h3>Running The Application</h3>
+  Using <a href="https://postman.com" target="__blank">POSTMAN</a>, we can test our GET, POST and DELETE methods.  
