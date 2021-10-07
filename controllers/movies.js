@@ -8,8 +8,9 @@ import {
   BAD_REQUEST_MESSAGE,
   CREATE_OPERATION_NAME,
   DELETE_OPERATION_NAME,
+  MISSING_ATTRIBUTE_MESSAGE,
 } from "../sources/constants.js";
-import { findElement, isInvalidObj } from "../utils/objectUtils.js";
+import { findElement, isInvalidObj, createObj } from "../utils/objectUtils.js";
 
 let movies = [
   {
@@ -30,9 +31,13 @@ export const getAllMovies = (req, res) => {
   res.status(SUCCESSFUL_OPERATION_CODE).json(movies);
 };
 export const createMovie = (req, res) => {
-  const movie = req.body;
-  if (isInvalidObj(movie)) {
+  const movie = createObj(req.body);
+  const obj = isInvalidObj(movie);
+  if (obj === true) {
     res.status(BAD_REQUEST_CODE).json({ msg: BAD_REQUEST_MESSAGE });
+    return;
+  } else if (obj !== false) {
+    res.status(BAD_REQUEST_CODE).json({ msg: obj + MISSING_ATTRIBUTE_MESSAGE });
     return;
   }
   const id = uuidv4();
@@ -51,7 +56,7 @@ export const getMovie = (req, res) => {
   res.status(NOT_FOUND_CODE).json({ msg: NOT_FOUND_MESSAGE + ` ${id}` });
 };
 export const deleteMovie = (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   const movie = findElement(movies, id);
   if (!movie) {
     res.status(NOT_FOUND_CODE).json({ msg: NOT_FOUND_MESSAGE + ` ${id}` });
